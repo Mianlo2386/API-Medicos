@@ -1,0 +1,3 @@
+UPDATE medicos
+SET activo = 1
+WHERE activo = 0;
