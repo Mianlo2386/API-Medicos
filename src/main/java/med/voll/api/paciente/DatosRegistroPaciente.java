@@ -19,8 +19,8 @@ public record DatosRegistroPaciente(
         @NotBlank
         @Pattern(regexp = "\\d{4,8}")
         String documento,
-        @NotNull
-        Especialidad especialidad,
+//        @NotNull
+//        Especialidad especialidad,
         @NotNull
         @Valid
         DatosDireccion direccion) {
