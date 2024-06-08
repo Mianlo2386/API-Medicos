@@ -46,8 +46,8 @@ public class MedicoController {
 
 
     @GetMapping
-   public Page<DatosListadoMedico> listadoMedicos(@PageableDefault (sort = "nombre") Pageable paginacion){
-    return medicoRepository.findByActivoTrue(paginacion).map(DatosListadoMedico::new);
+   public ResponseEntity<Page<DatosListadoMedico>> listadoMedicos(@PageableDefault (sort = "nombre") Pageable paginacion){
+    return ResponseEntity.ok(medicoRepository.findByActivoTrue(paginacion).map(DatosListadoMedico::new)) ;
    }
    @PutMapping
    @Transactional
@@ -72,6 +72,27 @@ public class MedicoController {
    }
 
 // DELETE LOGICO o UPDATE
+@GetMapping("/{id}")
+@Transactional
+public ResponseEntity<DatosRespuestaMedico> retornaDatosMedico(@PathVariable Long id) {
+    Medico medico = medicoRepository.getReferenceById(id);
+    var datosMedico = new DatosRespuestaMedico(
+            medico.getId(),
+            medico.getNombre(),
+            medico.getEmail(),
+            medico.getTelefono(),
+            medico.getEspecialidad().toString(),
+            new DatosDireccion(
+                    medico.getDireccion().getCalle(),
+                    medico.getDireccion().getDistrito(),
+                    medico.getDireccion().getCiudad(),
+                    medico.getDireccion().getNumero(),
+                    medico.getDireccion().getComplemento()),
+            medico.getDocumento()
+    );
+    return ResponseEntity.ok(datosMedico);
+}
+
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity eliminarMedico(@PathVariable Long id){
@@ -79,12 +100,14 @@ public class MedicoController {
         medico.desactivarMedico();
         return ResponseEntity.noContent().build();
     }
-    //   DELETE COMPLETO
+
+}
+
+
+//   DELETE COMPLETO
 //   @DeleteMapping("/{id}")
 //   @Transactional
 //   public void eliminarMedico(@PathVariable Long id){
 //       Medico medico = medicoRepository.getReferenceById(id);
 //       medicoRepository.delete(medico);
 //   }
-
-}
