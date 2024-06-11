@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import med.voll.api.domain.usuarios.Usuario;
@@ -16,7 +17,7 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
-    @Value("${api.security.secret")
+    @Value("${api.security.secret}")
     private String apiSecret;
 
     public String generarToken(Usuario usuario){
@@ -29,26 +30,25 @@ public class TokenService {
                     .withExpiresAt(generarFechaExpiracion())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
-            throw new RuntimeException();
+            throw new RuntimeException("Error al generar el token.");
         }
     }
-    public String getSubject(String token) {
-        DecodedJWT verifier = null;
+
+
+    public String getSubject(String tokenJWT) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(apiSecret);//validación de firma
-            verifier = JWT.require(algorithm)
+            var algoritmo = Algorithm.HMAC256(apiSecret);
+            return JWT.require(algoritmo)
                     .withIssuer("voll med")
                     .build()
-                    .verify(token);
-            verifier.getSubject();
+                    .verify(tokenJWT)
+                    .getSubject();
         } catch (JWTVerificationException exception) {
-            System.out.println(exception.toString());
+            throw new RuntimeException("Token JWT inválido o expirado!");
         }
-       if (verifier.getSubject() == null){
-           throw new RuntimeException("Verifier inválido.");
-       }
-        return verifier.getSubject();
     }
+
+
 
     private Instant generarFechaExpiracion() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
