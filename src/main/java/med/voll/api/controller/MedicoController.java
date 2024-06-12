@@ -19,8 +19,6 @@ import java.net.URI;
 public class MedicoController {
     @Autowired
     private MedicoRepository medicoRepository;
-
-
     @PostMapping
     public ResponseEntity registrarMedico(@RequestBody @Valid DatosRegistroMedico datosRegistroMedico, UriComponentsBuilder uriComponentsBuilder){
         Medico medico = medicoRepository.save(new Medico(datosRegistroMedico));
@@ -42,10 +40,8 @@ public class MedicoController {
         URI url = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
         return ResponseEntity.created(url).body(datosRespuestaMedico);
     }
-
-
     @GetMapping
-   public ResponseEntity<Page<DatosListadoMedico>> listadoMedicos(@PageableDefault (sort = "nombre") Pageable paginacion){
+    public ResponseEntity<Page<DatosListadoMedico>> listadoMedicos(@PageableDefault (sort = "nombre") Pageable paginacion){
     return ResponseEntity.ok(medicoRepository.findByActivoTrue(paginacion).map(DatosListadoMedico::new)) ;
    }
    @PutMapping

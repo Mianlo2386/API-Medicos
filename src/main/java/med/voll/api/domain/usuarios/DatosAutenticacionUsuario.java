@@ -1,4 +1,4 @@
-package med.voll.api.usuarios;
+package med.voll.api.domain.usuarios;
 
 public record DatosAutenticacionUsuario(String login, String clave) {
 }
