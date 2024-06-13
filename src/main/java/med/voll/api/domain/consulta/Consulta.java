@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.domain.medico.Medico;
-import med.voll.api.paciente.Paciente;
+import med.voll.api.domain.paciente.Paciente;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Consulta {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,4 +31,6 @@ public class Consulta {
     private Paciente paciente;
 
     private LocalDateTime data;
+
+
 }
