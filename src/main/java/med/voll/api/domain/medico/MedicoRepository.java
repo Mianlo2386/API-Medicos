@@ -23,8 +23,15 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
         ORDER BY RAND()
         LIMIT 1
         """, nativeQuery = true)
-    Medico seleccionarMedicoConEspecialidadEnFecha(@Param("especialidad") String especialidad, @Param("fecha") LocalDateTime fecha);
+    Medico seleccionarMedicoConEspecialidadEnFecha(@Param("especialidad") Especialidad especialidad, @Param("fecha") LocalDateTime fecha);
 
+    @Query("""
+            select m.activo
+            from Medico m
+            where m.id=:idMedico 
+            """)
+    Boolean findActivoById(Long idMedico);
 }
+//Verificando el uso de Especialidad especialidad en lugar de String especialidad compila
 
 

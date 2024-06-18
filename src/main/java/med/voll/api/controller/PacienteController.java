@@ -42,7 +42,7 @@ public class PacienteController {
     }
     @GetMapping
     public ResponseEntity<Page<DatosListaPaciente>> listar(@PageableDefault(page = 0, size = 10, sort = {"nombre"}) Pageable paginacion){
-        return ResponseEntity.ok(pacienteRepository.findByActivoTrue(paginacion).map(DatosListaPaciente::new));//paciente puede estar inactivo?
+        return ResponseEntity.ok(pacienteRepository.findAllActivoByTrue(paginacion).map(DatosListaPaciente::new));//paciente puede estar inactivo?
     }
     @PutMapping
     @Transactional
