@@ -3,9 +3,12 @@ package med.voll.api.controller;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.domain.direccion.DatosDireccion;
+<<<<<<< HEAD
 import med.voll.api.domain.paciente.DatosRespuestaPaciente;
 import med.voll.api.domain.paciente.Paciente;
 import med.voll.api.domain.paciente.PacienteRepository;
+=======
+>>>>>>> d63c8bee572c0862213ac70bb6baded620d8d48d
 import med.voll.api.domain.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
