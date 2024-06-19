@@ -3,10 +3,10 @@ package med.voll.api.controller;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.domain.direccion.DatosDireccion;
-import med.voll.api.domain.medico.DatosListadoMedico;
-import med.voll.api.domain.medico.DatosRespuestaMedico;
-import med.voll.api.domain.medico.Medico;
-import med.voll.api.paciente.*;
+import med.voll.api.domain.paciente.DatosRespuestaPaciente;
+import med.voll.api.domain.paciente.Paciente;
+import med.voll.api.domain.paciente.PacienteRepository;
+import med.voll.api.domain.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +24,7 @@ public class PacienteController {
     @Autowired
     private PacienteRepository pacienteRepository;
     @PostMapping
-    public ResponseEntity registrarPaciente(@RequestBody @Valid DatosRegistroPaciente datosRegistroPaciente, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<DatosRespuestaPaciente> registrarPaciente(@RequestBody @Valid DatosRegistroPaciente datosRegistroPaciente, UriComponentsBuilder uriComponentsBuilder){
         Paciente paciente = pacienteRepository.save(new Paciente(datosRegistroPaciente));
         DatosRespuestaPaciente datosRespuestaPaciente = new DatosRespuestaPaciente(
                 paciente.getId(),

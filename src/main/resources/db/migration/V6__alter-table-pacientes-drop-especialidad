@@ -1,1 +1,0 @@
-alter table pacientes drop column especialidad;
